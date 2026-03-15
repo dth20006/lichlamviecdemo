@@ -23,7 +23,7 @@
 
 | Chế độ Lịch trình | Nhật ký chi tiêu | Quỹ heo đất |
 | :---: | :---: | :---: |
-| ![Schedule](https://via.placeholder.com/200x400?text=Schedule+UI) | ![Expense](https://via.placeholder.com/200x400?text=Expense+UI) | ![Piggy](https://via.placeholder.com/200x400?text=Piggy+Bank) |
+| ![Schedule]() | ![Expense]() | ![Piggy]() |
 
 ---
 
