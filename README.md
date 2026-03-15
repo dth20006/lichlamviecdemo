@@ -23,7 +23,7 @@
 
 | Chế độ Lịch trình | Nhật ký chi tiêu | Quỹ heo đất |
 | :---: | :---: | :---: |
-| ![Schedule]() | ![Expense]() | ![Piggy]() |
+
 
 ---
 
