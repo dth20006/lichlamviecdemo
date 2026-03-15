@@ -87,7 +87,6 @@ body {
 
 .task-item { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; font-size: 16px; font-weight: 300; }
 
-/* CHECKBOX */
 input[type="checkbox"] {
   appearance: none; width: 26px; height: 26px; border: 2px solid var(--neon-purple);
   border-radius: 50%; cursor: pointer; position: relative; transition: 0.3s all cubic-bezier(0.4, 0, 0.2, 1);
@@ -144,7 +143,6 @@ input[type="checkbox"]:checked::after { content: '❤'; position: absolute; colo
 .stat-value { font-weight: 800; color: var(--neon-green); text-shadow: 0 0 12px rgba(166, 227, 161, 0.4); }
 #totalAccumulated { font-size: 22px; color: var(--neon-purple); text-shadow: 0 0 15px rgba(203, 166, 247, 0.5); }
 
-/* --- GOAL STYLES --- */
 .goal-container {
   margin-top: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 20px; padding: 16px; border: 1px dashed rgba(137, 220, 235, 0.3);
 }
@@ -155,7 +153,6 @@ input[type="checkbox"]:checked::after { content: '❤'; position: absolute; colo
   border-radius: 10px; transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 10px rgba(203, 166, 247, 0.6);
 }
 
-/* POPUP */
 .modal-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px);
   display: none; align-items: center; justify-content: center; z-index: 1000;
@@ -173,7 +170,6 @@ input[type="checkbox"]:checked::after { content: '❤'; position: absolute; colo
 .btn-cancel { background: rgba(255,255,255,0.08); color: #fff; }
 .btn-cancel:active { transform: scale(0.95); }
 
-/* WIDGET MÈO CHẠY */
 .cat-widget {
   position: fixed; bottom: 20px; right: 20px; background: rgba(30, 30, 46, 0.95);
   border: 2px dashed var(--neon-pink); border-radius: 20px; padding: 16px;
@@ -197,7 +193,6 @@ input[type="checkbox"]:checked::after { content: '❤'; position: absolute; colo
 </div>
 
 <div class="container">
-  
   <div class="card">
     <h3>🧸 Lịch Trình Của Bạn</h3>
     <div class="grid" id="grid"></div>
@@ -235,7 +230,6 @@ input[type="checkbox"]:checked::after { content: '❤'; position: absolute; colo
       </div>
       </div>
   </div>
-
 </div>
 
 <div id="modalOverlay" class="modal-overlay">
@@ -262,6 +256,15 @@ input[type="checkbox"]:checked::after { content: '❤'; position: absolute; colo
 </div>
 
 <script>
+// ==========================================
+// CẤU HÌNH CỦA BẠN TẠI ĐÂY 🎀
+// ==========================================
+const FIREBASE_API_URL = "DÁN_LINK_FIREBASE_CỦA_BẠN_VÀO_ĐÂY";
+const TELEGRAM_BOT_TOKEN = "DÁN_BOT_TOKEN_CỦA_BẠN_VÀO_ĐÂY";
+const TELEGRAM_CHAT_ID = "DÁN_CHAT_ID_CỦA_BẠN_VÀO_ĐÂY";
+const WAGE_RATE = 80000; // Tiền kiếm được mỗi giờ
+// ==========================================
+
 const schedule=[
 ["14/03","00-06h: Ngủ","07-09h: Ship","09:25-11:25: Ăn","11:25-14:00: Ship","14:10-16:10: Meet","16:30-23:30: Ship"],
 ["15/03","00-06h: Ngủ","07-09h: Full","09:25-11:25: Full","11:25-14:00: Full","14:10-16:10: Full","16:30-23:30: Full"],
@@ -300,9 +303,6 @@ const now = new Date();
 const todayStr = String(now.getDate()).padStart(2, '0') + '/' + String(now.getMonth() + 1).padStart(2, '0');
 const currentYear = now.getFullYear();
 let currentAddIndex = null;
-const WAGE_RATE = 80000; // Tiền kiếm được mỗi giờ (80k/h)
-
-const FIREBASE_API_URL = "https://firestore.googleapis.com/v1/projects/deas-75de8/databases/(default)/documents/warrior/data";
 
 function renderSchedule() {
   grid.innerHTML = "";
@@ -347,7 +347,6 @@ function renderIncomeTable() {
   if (finalTotal < 0) finalTotal = 0; 
   document.getElementById("totalAccumulated").innerText = finalTotal.toLocaleString() + "đ";
 
-  // --- CẬP NHẬT MỤC TIÊU ---
   const GOAL = 10000000; 
   let percent = (finalTotal / GOAL) * 100;
   if (percent < 0) percent = 0;
@@ -356,7 +355,6 @@ function renderIncomeTable() {
   document.getElementById("percentLabel").innerText = `${displayPercent}%`;
 }
 
-// --- THUẬT TOÁN MÈO TIÊN TRI DỰ ĐOÁN GIỜ / LÚA ---
 function updateCatPredictor() {
   let workedHours = 0;
   let remainingHours = 0;
@@ -368,10 +366,8 @@ function updateCatPredictor() {
   
   for (let i = 1; i < dayData.length; i++) {
     let taskStr = dayData[i];
-    // Bé Mèo không tính giờ ngủ và giờ ăn vào giờ làm việc nha
     if (taskStr.includes("Ngủ") || taskStr.includes("Ăn")) continue;
     
-    // Tự động phân tích giờ bắt đầu - kết thúc
     let regex = /(\d{1,2})(?::(\d{2}))?\s*-\s*(\d{1,2})(?::(\d{2}))?/;
     let m = taskStr.match(regex);
     let duration = 0;
@@ -389,14 +385,12 @@ function updateCatPredictor() {
     }
   }
   
-  // Làm tròn cho đẹp (VD: 2.5h)
   workedHours = Math.round(workedHours * 10) / 10;
   remainingHours = Math.round(remainingHours * 10) / 10;
   
   let earned = Math.round(workedHours * WAGE_RATE);
   let totalPredicted = Math.round(earned + (remainingHours * WAGE_RATE));
   
-  // Đổ data lên giao diện
   let elWorked = document.getElementById("catWorked");
   let elEarned = document.getElementById("catEarned");
   let elRemaining = document.getElementById("catRemaining");
@@ -478,6 +472,7 @@ function saveData() {
 }
 
 async function loadDataFromCloud() {
+  if (FIREBASE_API_URL === "DÁN_LINK_FIREBASE_CỦA_BẠN_VÀO_ĐÂY") return;
   try {
     const response = await fetch(FIREBASE_API_URL);
     if (!response.ok) throw new Error("Cloud Fetch Failed");
@@ -501,8 +496,9 @@ async function loadDataFromCloud() {
 }
 
 function sendTelegram(msg) {
-  fetch(`https://api.telegram.org/bot8506964729:AAFvC-IkiijRn98BtvUuT5aHdOVjifYVMlo/sendMessage`, {
-    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ chat_id: "7114174347", text: msg, parse_mode: "HTML" })
+  if (TELEGRAM_BOT_TOKEN === "DÁN_BOT_TOKEN_CỦA_BẠN_VÀO_ĐÂY") return;
+  fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: msg, parse_mode: "HTML" })
   });
 }
 
@@ -515,6 +511,7 @@ function notifyTask(el) { if (el.checked) { launchConfetti(false); sendTelegram(
 function notifyMoney(el) { if (Number(el.value) > 0) sendTelegram(`<b>💖 LÚA VỀ:</b> ${Number(el.value).toLocaleString()} VND`); }
 
 async function backupCloud(checks, money, expenses) {
+  if (FIREBASE_API_URL === "DÁN_LINK_FIREBASE_CỦA_BẠN_VÀO_ĐÂY") return;
   fetch(FIREBASE_API_URL, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ fields: { checks: { stringValue: JSON.stringify(checks) }, money: { stringValue: JSON.stringify(money) }, expenses: { stringValue: JSON.stringify(expenses) }, time: { stringValue: new Date().toISOString() } } }) });
 }
 
