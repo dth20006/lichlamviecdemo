@@ -1,241 +1,56 @@
-🌸 Cute Work Scheduler
-<div align="center">
-🐱 Neon Cute Productivity Dashboard
+# ✨ Cute Warrior Schedule & Money Tracker 🎀
 
-✨ Track work • 💰 Track income • 🛍️ Track spending • 🎯 Reach goals
+![Version](https://img.shields.io/badge/version-2.0-pink?style=for-the-badge)
+![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)
+![Platform](https://img.shields.io/badge/Platform-Web-brightgreen?style=for-the-badge)
 
-<img src="preview.gif" width="850"> <br>
+> Một ứng dụng quản lý lịch trình cá nhân kết hợp theo dõi tài chính với giao diện **Neon Dark Cute** dành riêng cho các chiến thần chạy ship và làm việc tự do.
 
+---
 
+## 🌟 Tính năng nổi bật
 
+* 🐱 **Mèo Tiên Tri (Smart Predictor):** Tự động tính toán giờ làm thực tế và dự đoán thu nhập dựa trên tiến độ công việc.
+* 💰 **Quản lý thu nhập:** Ghi chép "lúa về" nhanh chóng qua Popup tiện lợi.
+* 💔 **Nhật ký chi tiêu:** Theo dõi các khoản "bay màu", tự động lọc và xóa dữ liệu cũ sau 3 ngày để bảo mật và nhẹ máy.
+* 🐖 **Quỹ Heo Đất:** Theo dõi tiến độ mục tiêu tài chính (10.000.000đ) với thanh Progress bar cực mượt.
+* ☁️ **Đồng bộ Cloud:** Kết nối Firebase để dữ liệu luôn an toàn dù bạn đổi thiết bị.
+* 🔔 **Thông báo Telegram:** Báo cáo ngay lập tức mỗi khi hoàn thành việc hoặc có biến động số dư.
 
+---
 
+## 🚀 Giao diện ứng dụng
 
+| Chế độ Lịch trình | Nhật ký chi tiêu | Quỹ heo đất |
+| :---: | :---: | :---: |
+| ![Schedule](https://via.placeholder.com/200x400?text=Schedule+UI) | ![Expense](https://via.placeholder.com/200x400?text=Expense+UI) | ![Piggy](https://via.placeholder.com/200x400?text=Piggy+Bank) |
 
+---
 
+## 🛠 Cài đặt & Sử dụng
 
+### 1. Yêu cầu
+Bạn chỉ cần một trình duyệt web hiện đại (Chrome, Safari, Edge).
 
+### 2. Cấu hình cá nhân (Quan trọng)
+Để bảo mật, các thông tin API đã được ẩn. Bạn cần tạo file `config.js` hoặc cấu hình trong mã nguồn:
+- **Firebase API:** Lưu trữ data.
+- **Telegram Bot:** Nhận thông báo.
 
+### 3. Triển khai lên GitHub Pages
+1. Push code lên Repository của bạn.
+2. Vào **Settings** > **Pages**.
+3. Chọn nhánh `main` và bấm **Save**.
 
-</div>
-✨ Features
-📅 Smart Work Scheduler
+---
 
-checklist theo ngày
+## 🛡 Bảo mật dữ liệu
+Ứng dụng sử dụng **LocalStorage** làm bộ nhớ tạm và đồng bộ hóa qua **Firestore API**. Mọi thông tin nhạy cảm đều được cấu hình qua biến môi trường, không lưu trực tiếp trong mã nguồn công khai.
 
-đánh dấu hoàn thành
+---
 
-lưu trạng thái
+## 🎀 Đóng góp
+Nếu bạn có ý tưởng giúp bé Mèo thông minh hơn, hãy thoải mái Fork và gửi Pull Request nhé!
 
-💰 Income Tracker
-
-nhập tiền kiếm được
-
-cộng dồn tự động
-
-thông báo Telegram
-
-🛍️ Expense Tracker
-
-ghi lại chi tiêu
-
-hiển thị timeline
-
-tự xoá sau vài ngày
-
-🐱 AI Income Predictor
-
-Widget mèo tính:
-
-đã làm bao nhiêu giờ
-→ kiếm bao nhiêu tiền
-→ nếu làm thêm sẽ được bao nhiêu
-🎯 Goal System
-
-Thanh tiến độ tiết kiệm:
-
-Goal: 10.000.000đ
-Progress: 35%
-☁ Cloud Sync
-
-Dữ liệu lưu vào:
-
-Firebase Firestore
-
-Tự đồng bộ giữa các thiết bị.
-
-📲 Telegram Notification
-
-Thông báo khi:
-
-hoàn thành task
-
-kiếm tiền
-
-tiêu tiền
-
-🧠 AI Income Prediction
-
-Hệ thống tự phân tích:
-
-07:00 - 09:00
-09:25 - 11:25
-
-→ tính số giờ làm việc
-
-worked_hours × wage_rate
-
-Ví dụ
-
-3h → 240k
-5h → 400k
-📸 Preview
-Dashboard
-<img src="preview.png" width="850">
-Cat Widget
-🐱 HÔM NAY
-Đã làm: 3h
-💰 240.000đ
-
-⚡ Nếu làm thêm 2h → 400.000đ
-🚀 Live Demo
-
-Deploy bằng:
-
-GitHub Pages
-
-Sau khi deploy:
-
-https://yourname.github.io/cute-work-scheduler
-⚡ Quick Start
-
-Clone project
-
-git clone https://github.com/yourname/cute-work-scheduler.git
-
-mở file
-
-index.html
-🔧 Configuration
-
-Tất cả cấu hình nằm trong file:
-
-.env
-
-Tạo file:
-
-.env
-Example .env
-FIREBASE_URL=YOUR_FIREBASE_API_URL
-
-TELEGRAM_BOT_TOKEN=YOUR_BOT_TOKEN
-
-TELEGRAM_CHAT_ID=YOUR_CHAT_ID
-
-WAGE_RATE=80000
-
-GOAL=10000000
-📁 Project Structure
-cute-work-scheduler
-│
-├── index.html
-├── script.js
-├── style.css
-│
-├── assets
-│   ├── preview.png
-│   └── preview.gif
-│
-├── .env
-├── .gitignore
-└── README.md
-🔒 Security
-
-Đừng commit:
-
-.env
-
-Thêm vào .gitignore
-
-.env
-⚙ GitHub Pages Auto Deploy
-
-Vào repo:
-
-Settings
-→ Pages
-
-chọn:
-
-Deploy from branch
-main
-/root
-
-GitHub sẽ tự deploy.
-
-🤖 Telegram Control Bot
-
-Có thể điều khiển dashboard từ Telegram.
-
-Ví dụ:
-
-/income 50000
-
-→ thêm tiền
-
-/expense 20000 coffee
-
-→ thêm chi tiêu
-
-/status
-
-→ gửi thống kê hôm nay
-
-🛠 Tạo Telegram Bot
-
-Mở Telegram:
-
-@BotFather
-
-gõ:
-
-/newbot
-
-lấy:
-
-BOT TOKEN
-📊 Future Features
-
-Có thể nâng cấp thêm:
-
-📈 biểu đồ doanh thu 30 ngày
-
-🤖 AI dự đoán thu nhập theo ngày
-
-📍 map khu vực nhiều đơn
-
-🎮 UI Jarvis hologram
-
-📱 PWA mobile app
-
-🧠 machine learning forecast
-
-⭐ Support
-
-Nếu project giúp bạn:
-
-⭐ Star repo
-🧑‍💻 Author
-
-Made with ❤️
-
-🌈 Open Source
-
-Free to use
-Modify anything.
-
-🐱 Cute Productivity Philosophy
-Work smart
-Save money
-Chase your goals
-Stay cute ✨
+---
+Developed with ❤️ by [Tên của bạn]
