@@ -33,7 +33,7 @@
 Bạn chỉ cần một trình duyệt web hiện đại (Chrome, Safari, Edge).
 
 ### 2. Cấu hình cá nhân (Quan trọng)
-Để bảo mật, các thông tin API đã được ẩn. Bạn cần tạo file `config.js` hoặc cấu hình trong mã nguồn:
+Để bảo mật, các thông tin API đã được ẩn. Bạn chỉnh file `index.html` hoặc cấu hình trong mã nguồn:
 - **Firebase API:** Lưu trữ data.
 - **Telegram Bot:** Nhận thông báo.
 
