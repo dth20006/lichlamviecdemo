@@ -1,217 +1,268 @@
-🚀 Cute Warrior Schedule & Money Tracker
-<p align="center"> <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff9cee,100:7c7cff&height=220&section=header&text=Cute%20Warrior%20Tracker&fontSize=42&fontColor=ffffff&animation=fadeIn"/> </p> <p align="center">
+# 🚀 Cute Warrior Schedule & Money Tracker
 
-
-
-
-
-
-
-
-
-
-
-
+```{=html}
+<p align="center">
+```
+`<img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff9cee,100:7c7cff&height=220&section=header&text=Cute%20Warrior%20Tracker&fontSize=42&fontColor=ffffff&animation=fadeIn"/>`{=html}
+```{=html}
 </p>
-✨ Overview
+```
+```{=html}
+<p align="center">
+```
+![Version](https://img.shields.io/badge/version-2.0-ff69b4?style=for-the-badge)
+![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)
+![Platform](https://img.shields.io/badge/platform-Web-brightgreen?style=for-the-badge)
+![Firebase](https://img.shields.io/badge/backend-Firebase-orange?style=for-the-badge)
+![Telegram](https://img.shields.io/badge/notify-Telegram-blue?style=for-the-badge)
 
-Cute Warrior Tracker là một dashboard cá nhân giúp bạn quản lý:
+```{=html}
+</p>
+```
 
-⏰ lịch làm việc
+------------------------------------------------------------------------
 
-💰 thu nhập theo giờ
+# ✨ Overview
 
-📊 thống kê tài chính
+**Cute Warrior Tracker** là một dashboard cá nhân giúp bạn:
 
-🐱 AI dự đoán tiền kiếm được
+-   ⏰ Quản lý lịch làm việc
+-   💰 Theo dõi thu nhập theo giờ
+-   📊 Thống kê tài chính
+-   🐱 AI dự đoán tiền kiếm được
 
-Thiết kế UI theo phong cách:
+Thiết kế theo phong cách:
 
-🌙 Neon Dark
-🎀 Cute Dashboard
-🤖 AI Assistant
+-   🌙 Neon Dark\
+-   🎀 Cute Dashboard\
+-   🤖 AI Assistant
 
 Phù hợp cho:
 
-🚴 shipper
+-   🚴 Shipper
+-   💻 Freelancer
+-   📈 Người muốn tối ưu thời gian làm việc
 
-💻 freelancer
+------------------------------------------------------------------------
 
-📈 người muốn tối ưu thời gian làm việc
+# 🖥 Live Demo
 
-🖥 Live Demo
-https://yourusername.github.io/cute-warrior-tracker
-🎥 Preview
-<p align="center"> <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaHc4b3V1dXJkNnI4b2J5Nmw4MXE5ODJvazR3Y3R4d3g0dGphb2d0aSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ICOgUNjpvO0PC/giphy.gif" width="500"> </p>
-🌟 Features
-🐱 AI Income Predictor
+    https://yourusername.github.io/cute-warrior-tracker
+
+------------------------------------------------------------------------
+
+# 🌟 Features
+
+## 🐱 AI Income Predictor
 
 Tự động:
 
-tính giờ làm
-
-dự đoán thu nhập
-
-gợi ý làm thêm
+-   tính giờ làm
+-   dự đoán thu nhập
+-   gợi ý làm thêm
 
 Ví dụ:
 
-⏱ Hôm nay đã làm: 4h
-💰 Thu nhập: 320.000đ
+    ⏱ Hôm nay đã làm: 4h
+    💰 Thu nhập: 320.000đ
 
-📈 Dự đoán cuối ngày:
-≈ 560.000đ
-💰 Income Tracker
+    📈 Dự đoán cuối ngày:
+    ≈ 560.000đ
 
-Popup nhập tiền cực nhanh:
+------------------------------------------------------------------------
 
-+ nhận tiền
-+ ghi chú
-+ lưu lịch sử
+## 💰 Income Tracker
+
+Popup nhập tiền nhanh:
+
+-   nhận tiền
+-   ghi chú
+-   lưu lịch sử
 
 Tự động cập nhật:
 
-tổng tiền hôm nay
+-   tổng tiền hôm nay
+-   tổng tiền tháng
+-   biểu đồ doanh thu
 
-tổng tiền tháng
+------------------------------------------------------------------------
 
-biểu đồ doanh thu
-
-💔 Expense Log
+## 💔 Expense Log
 
 Theo dõi chi tiêu:
 
-🍜 ăn uống
-⛽ xăng xe
-🛒 mua đồ
-Auto Clean
+-   🍜 ăn uống
+-   ⛽ xăng xe
+-   🛒 mua đồ
 
-Dữ liệu sẽ tự xoá sau 3 ngày
+### Auto Clean
 
-→ bảo mật
+Dữ liệu sẽ **tự xoá sau 3 ngày**
+
+→ bảo mật\
 → nhẹ máy
 
-🐖 Saving Goal
+------------------------------------------------------------------------
+
+## 🐖 Saving Goal
 
 Theo dõi mục tiêu tiết kiệm:
 
-Goal: 10.000.000đ
+Goal: **10.000.000đ**
 
-Progress:
+Ví dụ:
 
-3.200.000 / 10.000.000
+    3.200.000 / 10.000.000
 
-████████░░░░░░
-32%
-🔔 Telegram Notification
+    ████████░░░░░░
+    32%
+
+------------------------------------------------------------------------
+
+## 🔔 Telegram Notification
 
 Khi:
 
-hoàn thành task
-
-nhận tiền
-
-đạt mục tiêu
+-   hoàn thành task
+-   nhận tiền
+-   đạt mục tiêu
 
 Bot sẽ gửi:
 
-🐱 Warrior Report
+    🐱 Warrior Report
 
-💰 Hôm nay: 420.000đ
-⏱ Giờ làm: 5h
-📈 Dự đoán: 600.000đ
-☁️ Architecture
-Browser
-   │
-   ▼
-Web Dashboard
-(HTML + CSS + JS)
+    💰 Hôm nay: 420.000đ
+    ⏱ Giờ làm: 5h
+    📈 Dự đoán: 600.000đ
 
-   │
-   ├── LocalStorage
-   │
-   ├── Firebase Firestore
-   │
-   └── Telegram Bot API
-🛠 Tech Stack
-Technology	Usage
-HTML	UI
-CSS	Neon Dark theme
-JavaScript	Logic
-Firebase	Cloud database
-Telegram Bot	Notification
-Chart.js	Charts
-📦 Project Structure
-cute-warrior-tracker
-│
-├── index.html
-├── style.css
-├── script.js
-├── config.js
-│
-├── assets
-│   ├── cat.gif
-│   ├── icons
-│   └── ui
-│
-└── README.md
-🚀 Deploy (GitHub Pages)
-1️⃣ Push code
-git init
-git add .
-git commit -m "first commit"
-git push
-2️⃣ Enable Pages
-Settings
-↓
-Pages
-↓
-Deploy from branch
-↓
-main
-3️⃣ Website chạy tại
-https://username.github.io/cute-warrior-tracker
-🔐 Configuration
-Firebase
-const firebaseConfig = {
- apiKey: "YOUR_KEY",
- authDomain: "YOUR_DOMAIN",
- projectId: "YOUR_PROJECT",
-};
-Telegram Bot
+------------------------------------------------------------------------
 
-Tạo bot qua BotFather
+# ☁️ Architecture
 
-Sau đó:
+    Browser
+       │
+       ▼
+    Web Dashboard
+    (HTML + CSS + JS)
 
-const BOT_TOKEN = "xxxx"
-const CHAT_ID = "xxxx"
-🗺 Roadmap
-V3
+       │
+       ├── LocalStorage
+       │
+       ├── Firebase Firestore
+       │
+       └── Telegram Bot API
 
-🤖 AI dự đoán thu nhập nâng cao
+------------------------------------------------------------------------
 
-📊 chart 30 ngày
+# 🛠 Tech Stack
 
-🗺 heatmap khu vực nhiều đơn
+  Technology     Usage
+  -------------- -----------------
+  HTML           UI
+  CSS            Neon Dark theme
+  JavaScript     Logic
+  Firebase       Cloud database
+  Telegram Bot   Notification
+  Chart.js       Charts
 
-🎮 UI hologram kiểu JARVIS
+------------------------------------------------------------------------
 
-📱 Telegram điều khiển dashboard
+# 📦 Project Structure
 
-❤️ Contributing
+    cute-warrior-tracker
+    │
+    ├── index.html
+    ├── style.css
+    ├── script.js
+    ├── config.js
+    │
+    ├── assets
+    │   ├── cat.gif
+    │   ├── icons
+    │   └── ui
+    │
+    └── README.md
+
+------------------------------------------------------------------------
+
+# 🚀 Deploy (GitHub Pages)
+
+### 1️⃣ Push code
+
+    git init
+    git add .
+    git commit -m "first commit"
+    git push
+
+### 2️⃣ Enable Pages
+
+    Settings
+    ↓
+    Pages
+    ↓
+    Deploy from branch
+    ↓
+    main
+
+### 3️⃣ Website sẽ chạy tại
+
+    https://username.github.io/cute-warrior-tracker
+
+------------------------------------------------------------------------
+
+# 🔐 Configuration
+
+## Firebase
+
+    const firebaseConfig = {
+     apiKey: "YOUR_KEY",
+     authDomain: "YOUR_DOMAIN",
+     projectId: "YOUR_PROJECT",
+    };
+
+------------------------------------------------------------------------
+
+## Telegram Bot
+
+Tạo bot qua BotFather sau đó thêm:
+
+    const BOT_TOKEN = "xxxx"
+    const CHAT_ID = "xxxx"
+
+------------------------------------------------------------------------
+
+# 🗺 Roadmap
+
+### V3
+
+-   🤖 AI dự đoán thu nhập nâng cao
+-   📊 chart 30 ngày
+-   🗺 heatmap khu vực nhiều đơn
+-   🎮 UI hologram kiểu JARVIS
+-   📱 Telegram điều khiển dashboard
+
+------------------------------------------------------------------------
+
+# ❤️ Contributing
 
 Bạn có thể:
 
 Fork → Pull Request
-⭐ Support
+
+------------------------------------------------------------------------
+
+# ⭐ Support
 
 Nếu project giúp bạn kiếm thêm tiền:
 
-👉 hãy Star repo
+👉 hãy **Star repo**
 
+------------------------------------------------------------------------
+
+```{=html}
 <p align="center">
-
-🐱 Work hard – Earn more – Save more
-
+```
+🐱 Work hard -- Earn more -- Save more
+```{=html}
 </p>
+```
