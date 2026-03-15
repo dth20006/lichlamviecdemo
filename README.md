@@ -53,4 +53,4 @@ Bạn chỉ cần một trình duyệt web hiện đại (Chrome, Safari, Edge).
 Nếu bạn có ý tưởng giúp bé Mèo thông minh hơn, hãy thoải mái Fork và gửi Pull Request nhé!
 
 ---
-Developed with ❤️ by [Tên của bạn]
+Developed with ❤️ by [dth206]
