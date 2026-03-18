@@ -316,3 +316,21 @@ bindAdminEvents();
 renderDaySelect();
 renderGoalsAdmin();
 loadSettingsToForm();
+import { cloudSave, cloudLoad } from "./cloud.js";
+
+async function debugFirestoreNow() {
+  console.log("=== DEBUG FIRESTORE START ===");
+
+  const saveOk = await cloudSave({
+    testMessage: "hello firestore",
+    time: Date.now()
+  });
+  console.log("saveOk =", saveOk);
+
+  const loaded = await cloudLoad();
+  console.log("loaded =", loaded);
+
+  console.log("=== DEBUG FIRESTORE END ===");
+}
+
+debugFirestoreNow();
