@@ -34,17 +34,35 @@ function loadDayEditor() {
 }
 
 function parseDateKey(dateObj) {
-  return `${String(dateObj.getDate()).padStart(2, '0')}/${String(dateObj.getMonth() + 1).padStart(2, '0')}`;
+  return `${String(dateObj.getDate()).padStart(2, "0")}/${String(dateObj.getMonth() + 1).padStart(2, "0")}`;
 }
 
 function buildStudyDaySchedule(date, classList) {
-  const tasks = [date, "00:00-06:00 Ngủ", "06:00-09:00 Ship", "11:30-12:00 Ăn trưa", "12:00-13:30 Ship", ...classList, "16:30-20:00 Ship", "20:00-20:30 Ăn tối", "21:00-23:30 Ship"];
+  const tasks = [
+    date,
+    "00:00-06:00 Ngủ",
+    "06:00-09:00 Ship",
+    "11:30-12:00 Ăn trưa",
+    "12:00-13:30 Ship",
+    ...classList,
+    "16:30-20:00 Ship",
+    "20:00-20:30 Ăn tối",
+    "21:00-23:30 Ship"
+  ];
   const header = tasks.shift();
   return [header, ...tasks.sort()];
 }
 
 function buildFreeDaySchedule(date) {
-  return [date, "00:00-06:00 Ngủ", "06:00-11:30 Ship", "11:30-12:00 Ăn trưa", "12:00-20:00 Ship", "20:00-20:30 Ăn tối", "20:30-23:59 Ship"];
+  return [
+    date,
+    "00:00-06:00 Ngủ",
+    "06:00-11:30 Ship",
+    "11:30-12:00 Ăn trưa",
+    "12:00-20:00 Ship",
+    "20:00-20:30 Ăn tối",
+    "20:30-23:59 Ship"
+  ];
 }
 
 function processTKB() {
@@ -91,7 +109,11 @@ function processTKB() {
     while (cursor <= maxDate) {
       const dk = parseDateKey(cursor);
       const classList = classesByDate[dk] || [];
-      state.schedule.push(classList.length ? buildStudyDaySchedule(dk, classList.sort()) : buildFreeDaySchedule(dk));
+      state.schedule.push(
+        classList.length
+          ? buildStudyDaySchedule(dk, classList.sort())
+          : buildFreeDaySchedule(dk)
+      );
       cursor.setDate(cursor.getDate() + 1);
     }
     return state;
@@ -104,6 +126,7 @@ function processTKB() {
 function renderGoalsAdmin() {
   const state = getState();
   const wrap = document.getElementById("adminGoalList");
+
   wrap.innerHTML = state.goals.map(goal => `
     <div class="list-item">
       <div style="display:flex;justify-content:space-between;gap:12px;align-items:center">
@@ -156,7 +179,10 @@ function loadSettingsToForm() {
   document.getElementById("taskColorRest").value = s.taskColors.rest;
   document.getElementById("taskColorOther").value = s.taskColors.other;
 
-  document.getElementById("catMoodEditor").value = state.catProfiles.map(x => `${x.key}|${x.label}|${x.desc}`).join("\n");
+  document.getElementById("catMoodEditor").value = state.catProfiles
+    .map(x => `${x.key}|${x.label}|${x.desc}`)
+    .join("\n");
+
   document.getElementById("insightEditor").value = state.defaultInsights.join("\n");
 }
 
@@ -166,21 +192,28 @@ function bindAdminEvents() {
 
   document.getElementById("saveDayBtn").addEventListener("click", () => {
     const idx = Number(document.getElementById("daySelect").value || 0);
-    const tasks = document.getElementById("dayTasksEditor").value.split("\n").map(x => x.trim()).filter(Boolean);
+    const tasks = document.getElementById("dayTasksEditor").value
+      .split("\n")
+      .map(x => x.trim())
+      .filter(Boolean);
+
     updateState(state => {
       if (!state.schedule[idx]) return state;
       state.schedule[idx] = [state.schedule[idx][0], ...tasks];
       return state;
     });
+
     setStatus("💾 Đã lưu day editor.");
   });
 
   document.getElementById("deleteDayBtn").addEventListener("click", () => {
     const idx = Number(document.getElementById("daySelect").value || 0);
+
     updateState(state => {
       state.schedule.splice(idx, 1);
       return state;
     });
+
     renderDaySelect();
     setStatus("🗑️ Đã xóa ngày.");
   });
@@ -190,6 +223,7 @@ function bindAdminEvents() {
     const amount = Number(document.getElementById("goalAmount").value || 0);
     const deadline = document.getElementById("goalDeadline").value;
     const tier = document.getElementById("goalTier").value;
+
     if (!title || amount <= 0) return;
 
     updateState(state => {
@@ -227,6 +261,7 @@ function bindAdminEvents() {
 
       return state;
     });
+
     setStatus("🛠️ Đã lưu settings.");
   });
 
@@ -238,22 +273,32 @@ function bindAdminEvents() {
       state.settings.taskColors.other = document.getElementById("taskColorOther").value;
       return state;
     });
+
     setStatus("🎨 Đã lưu màu task.");
   });
 
   document.getElementById("saveCatInsightBtn").addEventListener("click", () => {
-    const moods = document.getElementById("catMoodEditor").value.split("\n").map(x => x.trim()).filter(Boolean).map(line => {
-      const [key, label, desc] = line.split("|");
-      return { key: key?.trim(), label: label?.trim(), desc: desc?.trim() };
-    }).filter(x => x.key && x.label && x.desc);
+    const moods = document.getElementById("catMoodEditor").value
+      .split("\n")
+      .map(x => x.trim())
+      .filter(Boolean)
+      .map(line => {
+        const [key, label, desc] = line.split("|");
+        return { key: key?.trim(), label: label?.trim(), desc: desc?.trim() };
+      })
+      .filter(x => x.key && x.label && x.desc);
 
-    const insights = document.getElementById("insightEditor").value.split("\n").map(x => x.trim()).filter(Boolean);
+    const insights = document.getElementById("insightEditor").value
+      .split("\n")
+      .map(x => x.trim())
+      .filter(Boolean);
 
     updateState(state => {
       state.catProfiles = moods.length ? moods : state.catProfiles;
       state.defaultInsights = insights.length ? insights : state.defaultInsights;
       return state;
     });
+
     setStatus("😼 Đã lưu Cat & Insight.");
   });
 
@@ -261,10 +306,12 @@ function bindAdminEvents() {
     exportJsonFile("dashboard-backup.json", getState());
   });
 
-  document.getElementById("importJsonInput").addEventListener("change", async (e) => {
+  document.getElementById("importJsonInput").addEventListener("change", async e => {
     const file = e.target.files?.[0];
     if (!file) return;
+
     const text = await file.text();
+
     try {
       const parsed = JSON.parse(text);
       setState(mergeState(createDefaultState(), parsed));
@@ -278,12 +325,18 @@ function bindAdminEvents() {
   });
 
   document.getElementById("exportExpenseCsvBtn").addEventListener("click", () => {
-    const rows = [["date","time","reason","amount","category"], ...getState().expenses.map(x => [x.date, x.time, x.reason, x.amount, x.category])];
+    const rows = [
+      ["date", "time", "reason", "amount", "category"],
+      ...getState().expenses.map(x => [x.date, x.time, x.reason, x.amount, x.category])
+    ];
     exportCsvFile("expenses.csv", rows);
   });
 
   document.getElementById("exportIncomeCsvBtn").addEventListener("click", () => {
-    const rows = [["date","time","amount"], ...getState().incomes.map(x => [x.date, x.time, x.amount])];
+    const rows = [
+      ["date", "time", "amount"],
+      ...getState().incomes.map(x => [x.date, x.time, x.amount])
+    ];
     exportCsvFile("incomes.csv", rows);
   });
 
@@ -316,21 +369,3 @@ bindAdminEvents();
 renderDaySelect();
 renderGoalsAdmin();
 loadSettingsToForm();
-import { cloudSave, cloudLoad } from "./cloud.js";
-
-async function debugFirestoreNow() {
-  console.log("=== DEBUG FIRESTORE START ===");
-
-  const saveOk = await cloudSave({
-    testMessage: "hello firestore",
-    time: Date.now()
-  });
-  console.log("saveOk =", saveOk);
-
-  const loaded = await cloudLoad();
-  console.log("loaded =", loaded);
-
-  console.log("=== DEBUG FIRESTORE END ===");
-}
-
-debugFirestoreNow();
