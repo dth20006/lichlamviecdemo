@@ -24,14 +24,17 @@ let db = null;
 try {
   const app = initializeApp(FIREBASE_CONFIG);
   db = getFirestore(app);
-  console.log("Firebase OK", app);
-  console.log("Firestore OK", db);
+  console.log("Firebase init OK");
 } catch (e) {
-  console.log("Firebase init error:", e);
+  console.error("Firebase init error:", e);
 }
 
 export async function cloudSave(state) {
-  if (!db) return false;
+  if (!db) {
+    console.error("Firestore chưa khởi tạo");
+    return false;
+  }
+
   try {
     await setDoc(doc(db, "users", USER_ID), {
       ...state,
@@ -40,32 +43,40 @@ export async function cloudSave(state) {
     console.log("Cloud save success");
     return true;
   } catch (e) {
-    console.log("Cloud save error", e);
+    console.error("Cloud save error:", e);
     return false;
   }
 }
 
 export async function cloudLoad() {
-  if (!db) return null;
+  if (!db) {
+    console.error("Firestore chưa khởi tạo");
+    return null;
+  }
+
   try {
     const snap = await getDoc(doc(db, "users", USER_ID));
-    console.log("Cloud load snap exists:", snap.exists());
+    console.log("Cloud load success, exists =", snap.exists());
     if (snap.exists()) return snap.data();
     return null;
   } catch (e) {
-    console.log("Cloud load error", e);
+    console.error("Cloud load error:", e);
     return null;
   }
 }
 
 export async function cloudUpdate(partial) {
-  if (!db) return false;
+  if (!db) {
+    console.error("Firestore chưa khởi tạo");
+    return false;
+  }
+
   try {
     await updateDoc(doc(db, "users", USER_ID), partial);
     console.log("Cloud update success");
     return true;
-  } catch (e) {
-    console.log("Cloud update error", e);
+    } catch (e) {
+    console.error("Cloud update error:", e);
     return false;
   }
 }
