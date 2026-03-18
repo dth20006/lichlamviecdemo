@@ -15,6 +15,23 @@ function setStatus(text) {
   document.getElementById("adminStatus").textContent = text;
 }
 
+function showSuccessAndReload(message = "Dữ liệu đã được cập nhật thành công.") {
+  const popup = document.getElementById("successPopup");
+  const text = document.getElementById("successPopupText");
+
+  if (!popup || !text) {
+    location.reload();
+    return;
+  }
+
+  text.textContent = message;
+  popup.classList.remove("hidden");
+
+  setTimeout(() => {
+    location.reload();
+  }, 1600);
+}
+
 function renderDaySelect() {
   const state = getState();
   const select = document.getElementById("daySelect");
@@ -119,8 +136,8 @@ function processTKB() {
     return state;
   });
 
-  renderDaySelect();
   setStatus("✅ Đã process TKB thành công.");
+  showSuccessAndReload("Đã process thời khóa biểu thành công.");
 }
 
 function renderGoalsAdmin() {
@@ -145,7 +162,8 @@ function renderGoalsAdmin() {
         state.goals = state.goals.filter(g => g.id !== btn.dataset.id);
         return state;
       });
-      renderGoalsAdmin();
+      setStatus("🗑️ Đã xóa mục tiêu.");
+      showSuccessAndReload("Đã xóa mục tiêu thành công.");
     });
   });
 }
@@ -204,6 +222,7 @@ function bindAdminEvents() {
     });
 
     setStatus("💾 Đã lưu day editor.");
+    showSuccessAndReload("Đã lưu lịch của ngày thành công.");
   });
 
   document.getElementById("deleteDayBtn").addEventListener("click", () => {
@@ -214,8 +233,8 @@ function bindAdminEvents() {
       return state;
     });
 
-    renderDaySelect();
     setStatus("🗑️ Đã xóa ngày.");
+    showSuccessAndReload("Đã xóa ngày thành công.");
   });
 
   document.getElementById("addGoalBtn").addEventListener("click", () => {
@@ -234,7 +253,9 @@ function bindAdminEvents() {
     document.getElementById("goalTitle").value = "";
     document.getElementById("goalAmount").value = "";
     document.getElementById("goalDeadline").value = "";
-    renderGoalsAdmin();
+
+    setStatus("🎯 Đã thêm mục tiêu.");
+    showSuccessAndReload("Đã thêm mục tiêu mới thành công.");
   });
 
   document.getElementById("saveSettingsBtn").addEventListener("click", () => {
@@ -263,6 +284,7 @@ function bindAdminEvents() {
     });
 
     setStatus("🛠️ Đã lưu settings.");
+    showSuccessAndReload("Đã lưu cài đặt hệ thống thành công.");
   });
 
   document.getElementById("saveTaskColorsBtn").addEventListener("click", () => {
@@ -275,6 +297,7 @@ function bindAdminEvents() {
     });
 
     setStatus("🎨 Đã lưu màu task.");
+    showSuccessAndReload("Đã lưu màu task thành công.");
   });
 
   document.getElementById("saveCatInsightBtn").addEventListener("click", () => {
@@ -300,6 +323,7 @@ function bindAdminEvents() {
     });
 
     setStatus("😼 Đã lưu Cat & Insight.");
+    showSuccessAndReload("Đã lưu cat mood và AI insight thành công.");
   });
 
   document.getElementById("exportJsonBtn").addEventListener("click", () => {
@@ -315,10 +339,8 @@ function bindAdminEvents() {
     try {
       const parsed = JSON.parse(text);
       setState(mergeState(createDefaultState(), parsed));
-      renderDaySelect();
-      renderGoalsAdmin();
-      loadSettingsToForm();
       setStatus("📥 Import JSON thành công.");
+      showSuccessAndReload("Đã import dữ liệu JSON thành công.");
     } catch {
       setStatus("❌ File JSON không hợp lệ.");
     }
@@ -343,25 +365,25 @@ function bindAdminEvents() {
   document.getElementById("loadCloudScheduleBtn").addEventListener("click", async () => {
     const ok = await loadFromCloud();
     setStatus(ok ? "☁️ Đã tải từ Cloud" : "❌ Không có dữ liệu Cloud");
-    renderDaySelect();
-    renderGoalsAdmin();
-    loadSettingsToForm();
+    if (ok) showSuccessAndReload("Đã tải dữ liệu cloud thành công.");
   });
 
   document.getElementById("syncCloudScheduleBtn").addEventListener("click", async () => {
     const ok = await syncToCloud();
     setStatus(ok ? "🚀 Đã sync lên Firestore" : "❌ Sync Firestore thất bại");
+    if (ok) showSuccessAndReload("Đã đồng bộ dữ liệu lên cloud thành công.");
   });
 
   document.getElementById("loadGoalCloudBtn").addEventListener("click", async () => {
     const ok = await loadFromCloud();
     setStatus(ok ? "☁️ Đã tải goal từ Cloud" : "❌ Không tải được goal");
-    renderGoalsAdmin();
+    if (ok) showSuccessAndReload("Đã tải goal từ cloud thành công.");
   });
 
   document.getElementById("saveGoalCloudBtn").addEventListener("click", async () => {
     const ok = await syncToCloud();
     setStatus(ok ? "☁️ Đã lưu goal lên Cloud" : "❌ Lưu goal thất bại");
+    if (ok) showSuccessAndReload("Đã lưu goal lên cloud thành công.");
   });
 }
 
