@@ -24,6 +24,8 @@ let db = null;
 try {
   const app = initializeApp(FIREBASE_CONFIG);
   db = getFirestore(app);
+  console.log("Firebase OK", app);
+  console.log("Firestore OK", db);
 } catch (e) {
   console.log("Firebase init error:", e);
 }
@@ -35,6 +37,7 @@ export async function cloudSave(state) {
       ...state,
       updatedAt: Date.now()
     });
+    console.log("Cloud save success");
     return true;
   } catch (e) {
     console.log("Cloud save error", e);
@@ -46,6 +49,7 @@ export async function cloudLoad() {
   if (!db) return null;
   try {
     const snap = await getDoc(doc(db, "users", USER_ID));
+    console.log("Cloud load snap exists:", snap.exists());
     if (snap.exists()) return snap.data();
     return null;
   } catch (e) {
@@ -58,6 +62,7 @@ export async function cloudUpdate(partial) {
   if (!db) return false;
   try {
     await updateDoc(doc(db, "users", USER_ID), partial);
+    console.log("Cloud update success");
     return true;
   } catch (e) {
     console.log("Cloud update error", e);
