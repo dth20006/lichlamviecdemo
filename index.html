@@ -3,16 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>✨ Lịch Làm Việc Cute + Admin Scheduler 🎀</title>
+<title>✨ Lịch Làm Việc Cute 🎀</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
-/* =========================================================
-   1) BIẾN GỐC / GIAO DIỆN MÀU
-========================================================= */
 :root {
   --bg-dark: #13131f;
   --bg-dark-2: #1a1a2c;
@@ -31,9 +28,7 @@
   --tiltX: 0deg;
   --tiltY: 0deg;
 }
-
 * { box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -51,7 +46,6 @@ body {
   perspective: 1200px;
   overflow-x: hidden;
 }
-
 body::before {
   content: "";
   position: fixed;
@@ -63,9 +57,6 @@ body::before {
   z-index: 0;
 }
 
-/* =========================================================
-   2) PHẦN ĐẦU TRANG
-========================================================= */
 .header-ios {
   padding: 40px 0 20px 0;
   position: sticky;
@@ -81,6 +72,14 @@ body::before {
   box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .title {
   font-size: 30px;
   font-weight: 800;
@@ -93,9 +92,16 @@ body::before {
   gap: 8px;
 }
 
-/* =========================================================
-   3) THANH TRẠNG THÁI / TÂM TRẠNG
-========================================================= */
+.nav-btn {
+  text-decoration: none;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-weight: 800;
+  color: #000;
+  background: linear-gradient(135deg, var(--neon-yellow), #fff3bd);
+  box-shadow: 0 0 18px rgba(249,226,175,0.2);
+}
+
 .top-status-bar {
   position: relative;
   z-index: 2;
@@ -124,24 +130,9 @@ body::before {
   gap: 12px;
   flex-wrap: wrap;
 }
-
-.mood-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.mood-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--neon-pink);
-}
-
-.mood-desc {
-  font-size: 13px;
-  color: #fff;
-}
-
+.mood-info { display: flex; flex-direction: column; gap: 4px; }
+.mood-title { font-size: 15px; font-weight: 800; color: var(--neon-pink); }
+.mood-desc { font-size: 13px; color: #fff; }
 .mood-pill {
   padding: 10px 14px;
   border-radius: 999px;
@@ -152,9 +143,6 @@ body::before {
   border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* =========================================================
-   4) KHUNG CHỨA CHÍNH + CARD DÙNG CHUNG
-========================================================= */
 .container {
   display: flex;
   flex-direction: column;
@@ -182,7 +170,6 @@ body::before {
   transform-style: preserve-3d;
   transform: rotateX(var(--tiltX)) rotateY(var(--tiltY));
 }
-
 .card::before {
   content: "";
   position: absolute;
@@ -190,14 +177,12 @@ body::before {
   background: linear-gradient(140deg, rgba(255,255,255,0.10), transparent 30%, transparent 70%, rgba(255,255,255,0.03));
   pointer-events: none;
 }
-
 .card:hover {
   box-shadow:
     22px 22px 38px rgba(0, 0, 0, 0.3),
     -12px -12px 28px rgba(255,255,255,0.04),
     inset 1px 1px 0 rgba(255,255,255,0.16);
 }
-
 .card h3 {
   margin-top: 0;
   font-size: 19px;
@@ -211,14 +196,7 @@ body::before {
   z-index: 1;
 }
 
-/* =========================================================
-   5) CARD 1 - LỊCH TRÌNH / CÔNG VIỆC
-========================================================= */
-.grid {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
+.grid { display: flex; flex-direction: column; gap: 14px; }
 
 .day {
   background: rgba(255, 255, 255, 0.05);
@@ -233,12 +211,10 @@ body::before {
   position: relative;
   z-index: 1;
 }
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
 .day b {
   font-size: 18px;
   display: block;
@@ -263,12 +239,10 @@ body::before {
     -4px -4px 12px rgba(255,255,255,0.02);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 .task-item:active {
   transform: scale(0.98);
   background: rgba(0, 0, 0, 0.25);
 }
-
 .task-item.completed { opacity: 0.5; }
 .task-item.completed span {
   text-decoration: line-through;
@@ -292,23 +266,18 @@ input[type="checkbox"] {
   align-items: center;
   justify-content: center;
 }
-
 input[type="checkbox"]:checked {
   background-color: var(--neon-pink);
   border-color: var(--neon-pink);
   box-shadow: 0 0 18px var(--neon-pink);
   transform: scale(1.1);
 }
-
 input[type="checkbox"]:checked::after {
   content: '❤';
   color: #fff;
   font-size: 15px;
 }
 
-/* =========================================================
-   6) Ô NHẬP / NÚT DÙNG CHUNG
-========================================================= */
 .money-action {
   display: flex;
   align-items: center;
@@ -318,10 +287,7 @@ input[type="checkbox"]:checked::after {
   border-top: 2px dashed rgba(255, 255, 255, 0.08);
   flex-wrap: wrap;
 }
-
-.moneyInput,
-.admin-input,
-.admin-textarea {
+.moneyInput {
   flex: 1;
   background: rgba(0,0,0,0.16);
   border: 1px solid rgba(255,255,255,0.12);
@@ -336,10 +302,7 @@ input[type="checkbox"]:checked::after {
     inset 4px 4px 10px rgba(0,0,0,0.18),
     inset -2px -2px 6px rgba(255,255,255,0.02);
 }
-
-.moneyInput:focus,
-.admin-input:focus,
-.admin-textarea:focus {
+.moneyInput:focus {
   border-color: var(--neon-blue);
   box-shadow:
     0 0 12px rgba(137, 220, 235, 0.22),
@@ -347,13 +310,6 @@ input[type="checkbox"]:checked::after {
     inset -2px -2px 6px rgba(255,255,255,0.02);
   background: rgba(0,0,0,0.26);
 }
-
-.admin-textarea {
-  width: 100%;
-  min-height: 180px;
-  resize: vertical;
-}
-
 .btn-add {
   background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
   color: #fff;
@@ -370,11 +326,9 @@ input[type="checkbox"]:checked::after {
   justify-content: center;
   transition: transform 0.2s;
 }
-
 .btn-add:active { transform: scale(0.9); }
 
-.btn-expense,
-.admin-btn {
+.btn-expense {
   background: rgba(255,255,255,0.02);
   color: var(--neon-pink);
   border: 2px dashed var(--neon-pink);
@@ -388,45 +342,19 @@ input[type="checkbox"]:checked::after {
   font-family: 'Lexend', sans-serif;
   transition: 0.3s;
 }
-
-.btn-expense:hover,
-.admin-btn:hover { background: rgba(255, 133, 179, 0.08); }
-
-.btn-expense:active,
-.admin-btn:active {
+.btn-expense:hover { background: rgba(255, 133, 179, 0.08); }
+.btn-expense:active {
   background: var(--neon-pink);
   color: #fff;
   transform: scale(0.98);
 }
 
-.admin-btn.blue {
-  color: #000;
-  border: none;
-  background: linear-gradient(135deg, var(--neon-blue), #b8f2ff);
-}
-
-.admin-btn.green {
-  color: #000;
-  border: none;
-  background: linear-gradient(135deg, var(--neon-green), #d8ffd2);
-}
-
-.admin-btn.red {
-  color: #fff;
-  border: none;
-  background: linear-gradient(135deg, #f38ba8, #ff6f91);
-}
-
-/* =========================================================
-   7) CARD 2 - NHẬT KÝ CHI TIÊU
-========================================================= */
 .expense-log {
   margin-top: 15px;
   max-height: 260px;
   overflow-y: auto;
   padding-right: 5px;
 }
-
 .expense-item {
   display: flex;
   justify-content: space-between;
@@ -438,15 +366,12 @@ input[type="checkbox"]:checked::after {
   border: 1px solid rgba(255, 255, 255, 0.05);
   transition: 0.2s;
 }
-
 .expense-item:hover { background: rgba(255,255,255,0.05); }
-
 .expense-item .reason {
   font-weight: 600;
   color: #fff;
   margin-bottom: 4px;
 }
-
 .expense-item .amount {
   color: var(--neon-pink);
   font-weight: 800;
@@ -456,12 +381,10 @@ input[type="checkbox"]:checked::after {
   padding: 6px 10px;
   border-radius: 12px;
 }
-
 .expense-item .time {
   font-size: 11px;
   color: var(--text-dim);
 }
-
 .btn-del-exp {
   background: none;
   border: none;
@@ -472,15 +395,11 @@ input[type="checkbox"]:checked::after {
   opacity: 0.7;
   transition: 0.2s;
 }
-
 .btn-del-exp:hover {
   opacity: 1;
   transform: scale(1.1);
 }
 
-/* =========================================================
-   8) CARD 3 - QUỸ TIẾT KIỆM / MỤC TIÊU / DỰ BÁO
-========================================================= */
 .stat-row {
   display: flex;
   justify-content: space-between;
@@ -489,19 +408,16 @@ input[type="checkbox"]:checked::after {
   align-items: center;
   gap: 12px;
 }
-
 .stat-value {
   font-weight: 800;
   color: var(--neon-green);
   text-shadow: 0 0 12px rgba(166, 227, 161, 0.28);
 }
-
 #totalAccumulated {
   font-size: 22px;
   color: var(--neon-purple);
   text-shadow: 0 0 15px rgba(203, 166, 247, 0.35);
 }
-
 .goal-container {
   margin-top: 15px;
   background: rgba(0, 0, 0, 0.18);
@@ -509,7 +425,6 @@ input[type="checkbox"]:checked::after {
   padding: 16px;
   border: 1px dashed rgba(137, 220, 235, 0.22);
 }
-
 .goal-header {
   display: flex;
   justify-content: space-between;
@@ -520,7 +435,6 @@ input[type="checkbox"]:checked::after {
   gap: 12px;
   flex-wrap: wrap;
 }
-
 .progress-bar-bg {
   width: 100%;
   height: 14px;
@@ -530,7 +444,6 @@ input[type="checkbox"]:checked::after {
   position: relative;
   box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
 }
-
 .progress-bar-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
@@ -547,7 +460,6 @@ input[type="checkbox"]:checked::after {
   border: 1px dashed rgba(255, 133, 179, 0.26);
   box-shadow: inset 0 0 12px rgba(255,255,255,0.02);
 }
-
 .predictor-title {
   font-size: 15px;
   font-weight: 800;
@@ -555,32 +467,27 @@ input[type="checkbox"]:checked::after {
   margin-bottom: 12px;
   text-shadow: 0 0 10px rgba(255, 133, 179, 0.28);
 }
-
 .predictor-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
 }
-
 .predictor-item {
   background: rgba(255,255,255,0.03);
   border-radius: 16px;
   padding: 12px 14px;
   border: 1px solid rgba(255,255,255,0.05);
 }
-
 .predictor-label {
   font-size: 12px;
   color: var(--text-dim);
   margin-bottom: 4px;
 }
-
 .predictor-value {
   font-size: 16px;
   font-weight: 800;
   color: #fff;
 }
-
 .predictor-value.green { color: var(--neon-green); }
 .predictor-value.pink { color: var(--neon-pink); }
 .predictor-value.blue { color: var(--neon-blue); }
@@ -596,9 +503,6 @@ input[type="checkbox"]:checked::after {
   font-size: 14px;
 }
 
-/* =========================================================
-   9) CỬA SỔ POPUP
-========================================================= */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -612,7 +516,6 @@ input[type="checkbox"]:checked::after {
   justify-content: center;
   z-index: 1000;
 }
-
 .modal {
   background: rgba(28, 28, 42, 0.9);
   width: 90%;
@@ -627,22 +530,18 @@ input[type="checkbox"]:checked::after {
   transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   text-align: center;
 }
-
 .modal.active { transform: scale(1); }
-
 .modal h2 {
   margin-top: 0;
   color: var(--neon-blue);
   font-size: 22px;
   margin-bottom: 8px;
 }
-
 .modal-btns {
   display: flex;
   gap: 12px;
   margin-top: 24px;
 }
-
 .btn-modal {
   flex: 1;
   padding: 14px;
@@ -653,25 +552,18 @@ input[type="checkbox"]:checked::after {
   font-family: 'Lexend', sans-serif;
   transition: 0.2s;
 }
-
 .btn-confirm {
   background: var(--neon-blue);
   color: #000;
   box-shadow: 0 0 15px rgba(137, 220, 235, 0.28);
 }
-
 .btn-confirm:active { transform: scale(0.95); }
-
 .btn-cancel {
   background: rgba(255,255,255,0.08);
   color: #fff;
 }
-
 .btn-cancel:active { transform: scale(0.95); }
 
-/* =========================================================
-   10) WIDGET MÈO NỔI
-========================================================= */
 .cat-widget {
   position: fixed;
   bottom: 20px;
@@ -690,23 +582,19 @@ input[type="checkbox"]:checked::after {
   cursor: pointer;
   min-width: 240px;
 }
-
 @keyframes floatWidget {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
-
 .cat-run {
   font-size: 22px;
   display: inline-block;
   animation: bounceCat 0.4s ease-in-out infinite alternate;
 }
-
 @keyframes bounceCat {
   0% { transform: translateY(0) scaleX(1); }
   100% { transform: translateY(-6px) scaleX(1.1); }
 }
-
 .widget-title {
   font-weight: 800;
   color: var(--neon-blue);
@@ -716,95 +604,25 @@ input[type="checkbox"]:checked::after {
   align-items: center;
   gap: 6px;
 }
-
 .widget-stats {
   font-size: 14px;
   color: #fff;
   line-height: 1.6;
 }
-
 .widget-stats .highlight-money {
   color: var(--neon-green);
   font-weight: 800;
 }
-
 .widget-stats .highlight-energy {
   color: var(--neon-purple);
   font-weight: 800;
 }
-
 .ai-status-mini {
   margin-top: 10px;
   font-size: 12px;
   color: var(--neon-yellow);
 }
 
-/* =========================================================
-   11) KHU ADMIN
-========================================================= */
-.admin-section-title {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--neon-yellow);
-  margin: 10px 0 0;
-  text-align: center;
-  text-shadow: 0 0 12px rgba(249,226,175,0.25);
-}
-
-.admin-note {
-  font-size: 12px;
-  color: var(--neon-blue);
-  margin-bottom: 10px;
-  display: block;
-  line-height: 1.6;
-}
-
-.admin-status {
-  text-align: center;
-  color: var(--neon-green);
-  font-weight: bold;
-  margin: 15px 0;
-}
-
-.admin-day-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 15px;
-}
-
-.admin-day-item {
-  padding: 8px 12px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: 0.2s;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-.admin-day-item.active {
-  background: var(--neon-purple);
-  color: #000;
-  font-weight: bold;
-}
-
-.admin-row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.admin-row .admin-btn {
-  flex: 1;
-  min-width: 180px;
-}
-
-#adminEditor { display: none; }
-
-/* =========================================================
-   12) GIAO DIỆN TRÊN MÀN HÌNH NHỎ
-========================================================= */
 @media (max-width: 480px) {
   .cat-widget {
     right: 12px;
@@ -818,7 +636,10 @@ input[type="checkbox"]:checked::after {
 <body>
 
   <div class="header-ios">
-    <div class="title">✨ Lịch Làm Việc + Admin Scheduler 🎀</div>
+    <div class="header-top">
+      <div class="title">✨ Lịch Làm Việc Cute 🎀</div>
+      <a class="nav-btn" href="admin.html">⚙️ Vào Admin</a>
+    </div>
   </div>
 
   <div class="top-status-bar">
@@ -832,8 +653,6 @@ input[type="checkbox"]:checked::after {
   </div>
 
   <div class="container">
-
-    <!-- USER APP -->
     <div class="card" id="scheduleCard">
       <h3>🧸 Lịch Trình Của Bạn</h3>
       <div class="grid" id="grid"></div>
@@ -901,46 +720,6 @@ input[type="checkbox"]:checked::after {
         </div>
       </div>
     </div>
-
-    <!-- ADMIN -->
-    <div class="admin-section-title">🤖 Khu Admin AI Scheduler</div>
-
-    <div class="card">
-      <h3>🪄 Tạo / Sửa / Đồng bộ lịch</h3>
-
-      <span class="admin-note">
-        💡 Dán bảng TKB FPT ở đây. AI sẽ bỏ DAT103, VIE111, Giáo dục thể chất; giữ ENT123, DAT1071; môn online fix 14:10-16:10; ngày trống sẽ tự thêm ship + ăn + ngủ.
-      </span>
-
-      <textarea id="tkbInput" class="admin-textarea" placeholder="Dán bảng TKB tại đây..."></textarea>
-
-      <div class="admin-row">
-        <button class="admin-btn" onclick="processTKB()">🪄 PHÂN TÍCH & TẠO LỊCH</button>
-        <button class="admin-btn blue" onclick="loadScheduleFromCloud()">☁️ TẢI LỊCH TỪ CLOUD</button>
-      </div>
-
-      <div id="adminStatus" class="admin-status"></div>
-    </div>
-
-    <div class="card" id="adminListArea" style="display:none;">
-      <h3>📅 Danh sách ngày</h3>
-      <div class="admin-day-grid" id="adminDayGrid"></div>
-    </div>
-
-    <div class="card" id="adminEditor">
-      <h3 id="editLabel">Chỉnh sửa ngày</h3>
-      <input type="text" id="editDate" class="admin-input" style="width:100%; margin-bottom:10px;">
-      <textarea id="editTasks" class="admin-textarea" style="min-height:250px;"></textarea>
-
-      <div class="admin-row">
-        <button class="admin-btn green" onclick="saveEdit()">💾 Lưu thay đổi</button>
-        <button class="admin-btn red" onclick="deleteDay()">🗑️ Xóa ngày</button>
-      </div>
-    </div>
-
-    <button onclick="syncToCloud()" id="btnSync" class="admin-btn blue" style="display:none; font-size: 18px;">
-      🚀 ĐỒNG BỘ LÊN CLOUD
-    </button>
   </div>
 
   <div id="modalOverlay" class="modal-overlay">
@@ -969,9 +748,6 @@ input[type="checkbox"]:checked::after {
   </div>
 
 <script>
-/* =========================================================
-   1) DỮ LIỆU KHỞI TẠO / CẤU HÌNH
-========================================================= */
 let schedule = [
   ["14/03","00-06h: Ngủ","07-09h: Ship","09:25-11:25: Ăn","11:25-14:00: Ship","14:10-16:10: Meet","16:30-23:30: Ship"],
 ];
@@ -984,9 +760,7 @@ const todayFullStr = `${todayStr}/${currentYear}`;
 const todayDocId = `${currentYear}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
 let currentAddIndex = null;
-let currentAdminIndex = -1;
 
-const WAGE_RATE = 80000;
 const FIREBASE_PROJECT_ID = "deas-75de8";
 const FIREBASE_BASE_URL = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents`;
 const FIREBASE_SCHEDULE_URL = `${FIREBASE_BASE_URL}/warrior/root/schedule/main`;
@@ -1004,9 +778,6 @@ let currentMood = {
   desc: "Mèo đang quan sát bạn rất chăm chú nè."
 };
 
-/* =========================================================
-   2) GIAO DIỆN TASK / HIỂN THỊ LỊCH
-========================================================= */
 function toggleTaskStyle(el) {
   if (el.checked) el.parentElement.classList.add('completed');
   else el.parentElement.classList.remove('completed');
@@ -1052,9 +823,6 @@ function renderSchedule() {
   }
 }
 
-/* =========================================================
-   3) HIỂN THỊ THU NHẬP / TIẾT KIỆM / MỤC TIÊU
-========================================================= */
 function renderIncomeTable() {
   const logEl = document.getElementById("incomeLog");
   const data = getMoney();
@@ -1096,9 +864,6 @@ function renderIncomeTable() {
   updateCatMood();
 }
 
-/* =========================================================
-   4) HÀM PHỤ CHO TASK / THỜI GIAN / DỰ BÁO
-========================================================= */
 function parseTaskDuration(taskStr) {
   let regex = /(\d{1,2})(?::(\d{2}))?\s*-\s*(\d{1,2})(?::(\d{2}))?/;
   let m = taskStr.match(regex);
@@ -1122,9 +887,6 @@ function isPaidTask(taskStr) {
   return text.includes("ship");
 }
 
-/* =========================================================
-   5) DỰ BÁO CHO WIDGET MÈO NỔI
-========================================================= */
 function updateCatPredictor() {
   let workedHours = 0;
   let paidWorkedHours = 0;
@@ -1179,9 +941,6 @@ function updateCatPredictor() {
   if (elTotal) elTotal.innerText = totalPredicted.toLocaleString();
 }
 
-/* =========================================================
-   6) HÀM XỬ LÝ CHI TIÊU
-========================================================= */
 function cleanOldExpenses(expensesArray) {
   const currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
@@ -1293,9 +1052,6 @@ function renderExpenses() {
   logEl.innerHTML = html;
 }
 
-/* =========================================================
-   7) HÀM XỬ LÝ POPUP
-========================================================= */
 function openModal(index) {
   currentAddIndex = index;
   document.getElementById("modalOverlay").style.display = "flex";
@@ -1349,9 +1105,6 @@ function confirmQuickAdd() {
   }
 }
 
-/* =========================================================
-   8) LƯU / ĐỌC DỮ LIỆU LOCAL STORAGE
-========================================================= */
 function getMoney() {
   const savedMoney = JSON.parse(localStorage.getItem("money") || "[]");
   return schedule.map((_, i) => Number(savedMoney[i]) || 0);
@@ -1382,9 +1135,6 @@ function saveData() {
   backupCloud(checks, savedMoney, expenses);
 }
 
-/* =========================================================
-   9) HÀM PHỤ FIRESTORE / CLOUD
-========================================================= */
 function parseFirestoreNumber(fieldObj) {
   if (!fieldObj) return 0;
   if (fieldObj.integerValue !== undefined) return Number(fieldObj.integerValue) || 0;
@@ -1425,7 +1175,6 @@ async function loadDataFromCloud() {
     }
 
     renderSchedule();
-    renderAdminGrid();
 
     const daysRes = await fetch(FIREBASE_DAYS_URL);
     let dayDocs = [];
@@ -1511,7 +1260,6 @@ async function loadDataFromCloud() {
     renderExpenses();
     renderIncomeTable();
     updateCatPredictor();
-    renderAdminGrid();
   }
 }
 
@@ -1541,9 +1289,6 @@ async function backupCloud(checks, money, expenses) {
   }
 }
 
-/* =========================================================
-   10) TELEGRAM / THÔNG BÁO / PHÁO HOA
-========================================================= */
 function escapeHtml(text) {
   return String(text)
     .replace(/&/g, "&amp;")
@@ -1632,9 +1377,6 @@ function notifyMoney(el) {
   }
 }
 
-/* =========================================================
-   11) CẢNH BÁO THEO LỊCH
-========================================================= */
 function parseTaskStartTime(taskStr) {
   const match = taskStr.match(/^(\d{1,2})(?::(\d{2}))?\s*-/);
   if (!match) return null;
@@ -1714,9 +1456,6 @@ function checkScheduleAlerts() {
   }
 }
 
-/* =========================================================
-   12) DỰ BÁO THU NHẬP
-========================================================= */
 function formatDateShort(dateObj) {
   return `${String(dateObj.getDate()).padStart(2, '0')}/${String(dateObj.getMonth() + 1).padStart(2, '0')}`;
 }
@@ -1782,9 +1521,6 @@ function updateIncomePredictor(totalIncome, totalExpenses, finalTotal) {
   };
 }
 
-/* =========================================================
-   13) TÂM TRẠNG MÈO
-========================================================= */
 function getCompletedTaskCount() {
   return document.querySelectorAll('.task-item input[type="checkbox"]:checked').length;
 }
@@ -1844,9 +1580,6 @@ function updateCatMood() {
   if (mini) mini.innerText = `Mood: ${mood.label}`;
 }
 
-/* =========================================================
-   14) HIỆU ỨNG NGHIÊNG THEO CHUYỂN ĐỘNG
-========================================================= */
 function initParallaxGlass() {
   const handleMove = (xRatio, yRatio) => {
     const tiltY = (xRatio - 0.5) * 6;
@@ -1870,272 +1603,13 @@ function initParallaxGlass() {
   });
 }
 
-/* =========================================================
-   15) ADMIN SCHEDULER
-========================================================= */
-function setAdminStatus(text, color = "var(--neon-green)") {
-  const el = document.getElementById("adminStatus");
-  if (!el) return;
-  el.innerText = text;
-  el.style.color = color;
-}
-
-function formatDateKey(dateObj) {
-  const day = String(dateObj.getDate()).padStart(2, '0');
-  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-  return `${day}/${month}`;
-}
-
-function buildStudyDaySchedule(date, classList) {
-  let tasks = [date];
-  tasks.push("00:00-06:00 Ngủ");
-  tasks.push("06:00-09:00 Ship");
-  tasks.push("11:30-12:00 Ăn trưa");
-  tasks.push("12:00-13:30 Ship");
-
-  classList.forEach(c => tasks.push(c));
-
-  tasks.push("16:30-20:00 Ship");
-  tasks.push("20:00-20:30 Ăn tối");
-  tasks.push("21:00-23:30 Ship");
-
-  const header = tasks.shift();
-  tasks.sort();
-  return [header, ...tasks];
-}
-
-function buildFreeDaySchedule(date) {
-  let tasks = [date];
-  tasks.push("00:00-06:00 Ngủ");
-  tasks.push("06:00-11:30 Ship");
-  tasks.push("11:30-12:00 Ăn trưa");
-  tasks.push("12:00-20:00 Ship");
-  tasks.push("20:00-20:30 Ăn tối");
-  tasks.push("20:30-23:59 Ship");
-  return tasks;
-}
-
-function processTKB() {
-  const rawText = document.getElementById('tkbInput').value.trim();
-  if (!rawText) return alert("Bé chưa dán gì cả!");
-
-  const lines = rawText.split('\n').filter(line => line.trim() !== "");
-  const classesByDate = {};
-  let minDate = null;
-  let maxDate = null;
-
-  lines.forEach(line => {
-    const dateMatch = line.match(/(\d{2})\/(\d{2})\/(\d{4})/);
-    if (!dateMatch) return;
-
-    const day = parseInt(dateMatch[1], 10);
-    const month = parseInt(dateMatch[2], 10) - 1;
-    const year = parseInt(dateMatch[3], 10);
-    const dateObj = new Date(year, month, day);
-    const dateStr = formatDateKey(dateObj);
-
-    if (!minDate || dateObj < minDate) minDate = new Date(dateObj);
-    if (!maxDate || dateObj > maxDate) maxDate = new Date(dateObj);
-
-    if (line.includes("DAT103") || line.includes("VIE111") || line.includes("Giáo dục thể chất")) {
-      return;
-    }
-
-    const subjectMatch = line.match(/[A-Z]{3,4}\d{3,4}/);
-    const subject = subjectMatch ? subjectMatch[0] : "Học tập";
-
-    const isOnlineClass =
-      line.includes("Google Meet") ||
-      line.includes("Học Online") ||
-      line.includes("Meet");
-
-    let timeStr = "14:10-16:10";
-    if (!isOnlineClass) {
-      const timeMatch = line.match(/(\d{2}:\d{2}):\d{2}\s*-\s*(\d{2}:\d{2}):\d{2}/);
-      if (timeMatch) {
-        timeStr = `${timeMatch[1]}-${timeMatch[2]}`;
-      }
-    }
-
-    if (!classesByDate[dateStr]) classesByDate[dateStr] = [];
-    classesByDate[dateStr].push(`${timeStr} ${subject}`);
-  });
-
-  if (!minDate || !maxDate) {
-    return alert("Không đọc được ngày từ bảng lịch!");
-  }
-
-  schedule = [];
-  const currentDate = new Date(minDate);
-
-  while (currentDate <= maxDate) {
-    const dateStr = formatDateKey(currentDate);
-    const classList = classesByDate[dateStr] || [];
-
-    if (classList.length > 0) {
-      classList.sort();
-      schedule.push(buildStudyDaySchedule(dateStr, classList));
-    } else {
-      schedule.push(buildFreeDaySchedule(dateStr));
-    }
-
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
-
-  currentAdminIndex = -1;
-  renderAdminGrid();
-  renderSchedule();
-  renderIncomeTable();
-  updateCatPredictor();
-
-  document.getElementById('adminListArea').style.display = 'block';
-  document.getElementById('btnSync').style.display = 'block';
-  document.getElementById('adminEditor').style.display = 'none';
-  setAdminStatus(`✅ Đã tạo lịch cho ${schedule.length} ngày!`);
-}
-
-function renderAdminGrid() {
-  const adminGrid = document.getElementById('adminDayGrid');
-  if (!adminGrid) return;
-
-  adminGrid.innerHTML = "";
-
-  if (!Array.isArray(schedule) || schedule.length === 0) {
-    document.getElementById('adminListArea').style.display = 'none';
-    document.getElementById('btnSync').style.display = 'none';
-    return;
-  }
-
-  document.getElementById('adminListArea').style.display = 'block';
-  document.getElementById('btnSync').style.display = 'block';
-
-  schedule.forEach((d, i) => {
-    const item = document.createElement('div');
-    item.className = `admin-day-item ${currentAdminIndex === i ? 'active' : ''}`;
-    item.innerText = d[0];
-    item.onclick = () => openEdit(i);
-    adminGrid.appendChild(item);
-  });
-}
-
-function openEdit(i) {
-  currentAdminIndex = i;
-  renderAdminGrid();
-  document.getElementById('adminEditor').style.display = 'block';
-  document.getElementById('editDate').value = schedule[i][0];
-  document.getElementById('editTasks').value = schedule[i].slice(1).join('\n');
-  document.getElementById('editLabel').innerText = "Ngày " + schedule[i][0];
-}
-
-function saveEdit() {
-  if (currentAdminIndex < 0) return;
-  const date = document.getElementById('editDate').value.trim();
-  const tasks = document.getElementById('editTasks').value
-    .split('\n')
-    .map(t => t.trim())
-    .filter(t => t !== "");
-
-  if (!date) return alert("Ngày không được để trống.");
-
-  schedule[currentAdminIndex] = [date, ...tasks];
-  renderAdminGrid();
-  renderSchedule();
-  renderIncomeTable();
-  updateCatPredictor();
-  setAdminStatus(`💾 Đã cập nhật ngày ${date}`);
-}
-
-function deleteDay() {
-  if (currentAdminIndex < 0) return;
-  if (confirm("Xóa ngày này?")) {
-    schedule.splice(currentAdminIndex, 1);
-    currentAdminIndex = -1;
-    document.getElementById('adminEditor').style.display = 'none';
-    renderAdminGrid();
-    renderSchedule();
-    renderIncomeTable();
-    updateCatPredictor();
-    setAdminStatus("🗑️ Đã xóa ngày khỏi lịch hiện tại.");
-  }
-}
-
-async function loadScheduleFromCloud() {
-  setAdminStatus("⏳ Đang tải lịch từ Cloud...", "var(--neon-yellow)");
-  try {
-    const res = await fetch(FIREBASE_SCHEDULE_URL);
-    if (!res.ok) throw new Error("Không tải được schedule");
-
-    const data = await res.json();
-    const scheduleStr = parseFirestoreString(data?.fields?.scheduleData, "[]");
-    const parsed = safeJsonParse(scheduleStr, []);
-
-    if (!Array.isArray(parsed) || parsed.length === 0) {
-      schedule = [];
-      currentAdminIndex = -1;
-      renderAdminGrid();
-      renderSchedule();
-      document.getElementById('adminEditor').style.display = 'none';
-      setAdminStatus("📭 Cloud chưa có schedule.");
-      return;
-    }
-
-    schedule = parsed;
-    currentAdminIndex = -1;
-    renderAdminGrid();
-    renderSchedule();
-    renderIncomeTable();
-    updateCatPredictor();
-    document.getElementById('adminEditor').style.display = 'none';
-    setAdminStatus(`☁️ Đã tải ${schedule.length} ngày từ Cloud.`);
-  } catch (e) {
-    console.log(e);
-    setAdminStatus("❌ Lỗi tải Cloud!", "#ff9bb8");
-    alert("Không tải được schedule từ Firebase.");
-  }
-}
-
-async function syncToCloud() {
-  if (!Array.isArray(schedule) || schedule.length === 0) {
-    return alert("Chưa có lịch để đồng bộ.");
-  }
-
-  setAdminStatus("⏳ Đang gửi lên Cloud...", "var(--neon-yellow)");
-  try {
-    const res = await fetch(FIREBASE_SCHEDULE_URL, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        fields: {
-          scheduleData: { stringValue: JSON.stringify(schedule) },
-          updatedAt: { stringValue: new Date().toISOString() }
-        }
-      })
-    });
-
-    if (res.ok) {
-      setAdminStatus("🚀 ĐỒNG BỘ THÀNH CÔNG!");
-      alert("Đã cập nhật lịch mới lên cloud!");
-    } else {
-      setAdminStatus("❌ Đồng bộ thất bại!", "#ff9bb8");
-      alert("Lỗi khi đồng bộ Firebase!");
-    }
-  } catch (e) {
-    console.log(e);
-    setAdminStatus("❌ Lỗi Firebase!", "#ff9bb8");
-    alert("Lỗi Firebase!");
-  }
-}
-
-/* =========================================================
-   16) KHỞI TẠO ỨNG DỤNG
-========================================================= */
 document.getElementById("popupMoneyInput").addEventListener("keypress", (e) => {
   if (e.key === "Enter") confirmQuickAdd();
 });
 
 renderSchedule();
-renderAdminGrid();
 loadDataFromCloud();
+renderExpenses();
 initParallaxGlass();
 checkScheduleAlerts();
 updateCatMood();
