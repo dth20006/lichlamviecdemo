@@ -1,3 +1,16 @@
+import {
+  getState,
+  setState,
+  updateState,
+  uid,
+  exportJsonFile,
+  exportCsvFile,
+  createDefaultState,
+  mergeState,
+  loadFromCloud,
+  syncToCloud
+} from "./store.js";
+
 function setStatus(text) {
   document.getElementById("adminStatus").textContent = text;
 }
@@ -27,8 +40,7 @@ function parseDateKey(dateObj) {
 function buildStudyDaySchedule(date, classList) {
   const tasks = [date, "00:00-06:00 Ngủ", "06:00-09:00 Ship", "11:30-12:00 Ăn trưa", "12:00-13:30 Ship", ...classList, "16:30-20:00 Ship", "20:00-20:30 Ăn tối", "21:00-23:30 Ship"];
   const header = tasks.shift();
-  const sorted = tasks.sort();
-  return [header, ...sorted];
+  return [header, ...tasks.sort()];
 }
 
 function buildFreeDaySchedule(date) {
@@ -275,20 +287,28 @@ function bindAdminEvents() {
     exportCsvFile("incomes.csv", rows);
   });
 
-  document.getElementById("loadCloudScheduleBtn").addEventListener("click", () => {
-    setStatus("☁️ Bản này đang để local-first. Bước sau tôi có thể cắm Firestore cho bạn.");
+  document.getElementById("loadCloudScheduleBtn").addEventListener("click", async () => {
+    const ok = await loadFromCloud();
+    setStatus(ok ? "☁️ Đã tải từ Cloud" : "❌ Không có dữ liệu Cloud");
+    renderDaySelect();
+    renderGoalsAdmin();
+    loadSettingsToForm();
   });
 
-  document.getElementById("syncCloudScheduleBtn").addEventListener("click", () => {
-    setStatus("🚀 Bản này đã sẵn cấu trúc settings/cloud, có thể cắm Firestore ở bước tiếp.");
+  document.getElementById("syncCloudScheduleBtn").addEventListener("click", async () => {
+    const ok = await syncToCloud();
+    setStatus(ok ? "🚀 Đã sync lên Firestore" : "❌ Sync Firestore thất bại");
   });
 
-  document.getElementById("loadGoalCloudBtn").addEventListener("click", () => {
-    setStatus("☁️ Goal cloud placeholder.");
+  document.getElementById("loadGoalCloudBtn").addEventListener("click", async () => {
+    const ok = await loadFromCloud();
+    setStatus(ok ? "☁️ Đã tải goal từ Cloud" : "❌ Không tải được goal");
+    renderGoalsAdmin();
   });
 
-  document.getElementById("saveGoalCloudBtn").addEventListener("click", () => {
-    setStatus("☁️ Goal sync placeholder.");
+  document.getElementById("saveGoalCloudBtn").addEventListener("click", async () => {
+    const ok = await syncToCloud();
+    setStatus(ok ? "☁️ Đã lưu goal lên Cloud" : "❌ Lưu goal thất bại");
   });
 }
 
