@@ -1,8 +1,33 @@
-const state = getState();
+import {
+  getState,
+  todayKey,
+  getTodaySchedule,
+  getTaskType,
+  isTaskDone,
+  setTaskDone,
+  isTaskOverdue,
+  parseTaskRange,
+  addExpenseItem,
+  deleteExpenseItem,
+  addIncomeItem,
+  saveDailyJournal,
+  calcStats,
+  computeStreak,
+  getCatProfile,
+  buildBadges,
+  sendTelegramMessage,
+  loadFromCloud
+} from "./store.js";
+
 let chartRefs = {};
 
 function formatMoney(v) {
   return Number(v || 0).toLocaleString("vi-VN") + "đ";
+}
+
+async function initCloudLoad() {
+  await loadFromCloud();
+  rerenderAll();
 }
 
 function renderMoodCat() {
@@ -12,7 +37,6 @@ function renderMoodCat() {
   document.getElementById("catLevel").textContent = cat.level;
   document.getElementById("catRank").textContent = cat.rank;
   document.getElementById("catStreak").textContent = `${cat.streak} ngày`;
-
   document.getElementById("widgetMood").textContent = cat.label;
 }
 
@@ -47,7 +71,6 @@ function renderTodaySchedule() {
     const type = getTaskType(task);
     const done = isTaskDone(day[0], realIdx, state);
     const overdue = isTaskOverdue(task);
-
     return { task, idx: realIdx, type, done, overdue };
   }).filter(item => {
     const searchOk = !search || item.task.toLowerCase().includes(search);
@@ -83,7 +106,7 @@ function renderTodaySchedule() {
   }).join("") || `<div class="list-item">Không có task phù hợp bộ lọc.</div>`;
 
   wrap.querySelectorAll(".taskCheck,.markTaskBtn").forEach(el => {
-    el.addEventListener("click", async (e) => {
+    el.addEventListener("click", async () => {
       const dayKey = el.dataset.day;
       const idx = el.dataset.idx;
       const current = isTaskDone(dayKey, idx);
@@ -259,7 +282,6 @@ function destroyCharts() {
 function renderCharts() {
   destroyCharts();
   const state = getState();
-  const stats = calcStats(state);
 
   const incomeByDate = {};
   state.incomes.forEach(x => incomeByDate[x.date] = (incomeByDate[x.date] || 0) + x.amount);
@@ -309,6 +331,7 @@ function renderCharts() {
     options: { responsive: true, maintainAspectRatio: false }
   });
 
+  const stats = calcStats(state);
   chartRefs.task = new Chart(document.getElementById("taskChart"), {
     type: "pie",
     data: {
@@ -330,6 +353,33 @@ function rerenderAll() {
   renderBadges();
   renderWidget();
   renderCharts();
+}
+
+function startTaskReminder() {
+  setInterval(async () => {
+    const state = getState();
+    const today = getTodaySchedule(state);
+    if (!today) return;
+
+    const now = new Date();
+    const current = now.getHours() * 60 + now.getMinutes();
+    const reminderKey = `task_reminders_${today[0]}_${current}`;
+    if (sessionStorage.getItem(reminderKey)) return;
+
+    for (let i = 1; i < today.length; i++) {
+      const task = today[i];
+      const range = parseTaskRange(task);
+      if (!range) continue;
+
+      const warn10 = state.settings.warnBefore10 && current === range.startMinutes - 10;
+      const warn30 = state.settings.warnBefore30 && current === range.startMinutes - 30;
+
+      if (warn10 || warn30) {
+        await sendTelegramMessage(`⏰ Sắp tới: ${task}`, "schedule");
+        sessionStorage.setItem(reminderKey, "1");
+      }
+    }
+  }, 60000);
 }
 
 function bindEvents() {
@@ -374,7 +424,7 @@ function bindEvents() {
     addExpenseItem({ reason, amount, category });
     document.getElementById("expenseReason").value = "";
     document.getElementById("expenseAmount").value = "";
-    await sendTelegramMessage(`💸 Chi tiêu: ${reason} - ${amount}`, "expense");
+    await sendTelegramMessage(`💸 Chi tiêu: ${reason} - ${amount.toLocaleString("vi-VN")}đ`, "expense");
     rerenderAll();
   });
 
@@ -384,9 +434,11 @@ function bindEvents() {
   document.getElementById("quickIncomeOpenBtn").addEventListener("click", () => {
     document.getElementById("incomeModalOverlay").style.display = "flex";
   });
+
   document.getElementById("closeIncomeModalBtn").addEventListener("click", () => {
     document.getElementById("incomeModalOverlay").style.display = "none";
   });
+
   document.getElementById("saveQuickIncomeBtn").addEventListener("click", async () => {
     const amount = Number(document.getElementById("quickIncomeAmount").value || 0);
     if (amount <= 0) return;
@@ -394,7 +446,7 @@ function bindEvents() {
     document.getElementById("quickIncomeAmount").value = "";
     document.getElementById("incomeModalOverlay").style.display = "none";
     confetti({ particleCount: 120, spread: 90, origin: { y: 0.65 } });
-    await sendTelegramMessage(`💰 Thu nhập mới: ${amount}`, "income");
+    await sendTelegramMessage(`💰 Thu nhập mới: ${amount.toLocaleString("vi-VN")}đ`, "income");
     rerenderAll();
   });
 
@@ -404,4 +456,6 @@ function bindEvents() {
 }
 
 bindEvents();
+startTaskReminder();
+await initCloudLoad();
 rerenderAll();
