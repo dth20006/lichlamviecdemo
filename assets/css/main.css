@@ -164,7 +164,6 @@ label{display:block;font-size:13px;color:var(--muted);margin:0 0 8px}
 .toggle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
 .file-btn{position:relative;overflow:hidden}
 .file-btn input{position:absolute;inset:0;opacity:0;cursor:pointer}
-.hidden{display:none!important}
 
 @media (max-width:900px){
   .metric-grid.cols-4,.metric-grid.cols-5,.form-grid.two,.form-grid.three,.form-grid.four,.chart-grid,.toggle-grid{
