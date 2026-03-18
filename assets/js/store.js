@@ -1,20 +1,26 @@
+import { cloudLoad, cloudSave } from "./cloud.js";
+
 const APP_KEY = "cute_dashboard_premium_v2";
 
-function todayKey() {
+export function todayKey() {
   const d = new Date();
   return `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}`;
 }
 
-function shortTodayKey() {
+export function shortTodayKey() {
   const d = new Date();
   return `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}`;
 }
 
-function nowTime() {
+export function nowTime() {
   return new Date().toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
 }
 
-function createDefaultState() {
+export function uid() {
+  return Math.random().toString(36).slice(2, 10);
+}
+
+export function createDefaultState() {
   return {
     schedule: [
       ["19/03", "00:00-06:00 Ngủ", "06:00-09:00 Ship", "09:30-11:30 ENT123", "12:00-14:00 Ship", "14:10-16:10 DAT1071", "19:00-22:00 Ship"]
@@ -66,34 +72,12 @@ function createDefaultState() {
       "Chi tiêu ăn uống đang tăng, nhớ kiểm soát nhẹ nha."
     ],
     cloud: {
-      enabled: false,
-      endpoint: ""
+      enabled: true
     }
   };
 }
 
-function uid() {
-  return Math.random().toString(36).slice(2, 10);
-}
-
-function getState() {
-  const raw = localStorage.getItem(APP_KEY);
-  if (!raw) {
-    const init = createDefaultState();
-    setState(init);
-    return init;
-  }
-  try {
-    const parsed = JSON.parse(raw);
-    return mergeState(createDefaultState(), parsed);
-  } catch {
-    const init = createDefaultState();
-    setState(init);
-    return init;
-  }
-}
-
-function mergeState(base, saved) {
+export function mergeState(base, saved) {
   return {
     ...base,
     ...saved,
@@ -120,22 +104,52 @@ function mergeState(base, saved) {
   };
 }
 
-function setState(next) {
+export function getState() {
+  const raw = localStorage.getItem(APP_KEY);
+  if (!raw) {
+    const init = createDefaultState();
+    setState(init);
+    return init;
+  }
+  try {
+    return mergeState(createDefaultState(), JSON.parse(raw));
+  } catch {
+    const init = createDefaultState();
+    setState(init);
+    return init;
+  }
+}
+
+export function setState(next) {
   localStorage.setItem(APP_KEY, JSON.stringify(next));
 }
 
-function updateState(updater) {
+export async function syncToCloud() {
+  const state = getState();
+  if (!state.cloud?.enabled) return false;
+  return await cloudSave(state);
+}
+
+export async function loadFromCloud() {
+  const cloudData = await cloudLoad();
+  if (!cloudData) return false;
+  setState(mergeState(createDefaultState(), cloudData));
+  return true;
+}
+
+export function updateState(updater) {
   const state = getState();
   const next = updater(structuredClone(state));
   setState(next);
+  syncToCloud();
   return next;
 }
 
-function getTodaySchedule(state = getState()) {
+export function getTodaySchedule(state = getState()) {
   return state.schedule.find(d => d[0] === shortTodayKey()) || null;
 }
 
-function getTaskType(task) {
+export function getTaskType(task) {
   const t = task.toLowerCase();
   if (t.includes("ship")) return "ship";
   if (t.includes("ngủ") || t.includes("ăn")) return "rest";
@@ -143,7 +157,7 @@ function getTaskType(task) {
   return "other";
 }
 
-function parseTaskRange(task) {
+export function parseTaskRange(task) {
   const match = task.match(/(\d{1,2})(?::(\d{2}))?\s*-\s*(\d{1,2})(?::(\d{2}))?/);
   if (!match) return null;
   const h1 = Number(match[1] || 0), m1 = Number(match[2] || 0);
@@ -151,7 +165,7 @@ function parseTaskRange(task) {
   return { startMinutes: h1 * 60 + m1, endMinutes: h2 * 60 + m2 };
 }
 
-function isTaskOverdue(task) {
+export function isTaskOverdue(task) {
   const range = parseTaskRange(task);
   if (!range) return false;
   const now = new Date();
@@ -159,18 +173,18 @@ function isTaskOverdue(task) {
   return cur > range.endMinutes;
 }
 
-function isTaskDone(dayKey, idx, state = getState()) {
+export function isTaskDone(dayKey, idx, state = getState()) {
   return !!state.checks[`${dayKey}_${idx}`];
 }
 
-function setTaskDone(dayKey, idx, done) {
+export function setTaskDone(dayKey, idx, done) {
   return updateState(state => {
     state.checks[`${dayKey}_${idx}`] = done;
     return state;
   });
 }
 
-function addExpenseItem(payload) {
+export function addExpenseItem(payload) {
   return updateState(state => {
     state.expenses.unshift({
       id: uid(),
@@ -184,14 +198,14 @@ function addExpenseItem(payload) {
   });
 }
 
-function deleteExpenseItem(id) {
+export function deleteExpenseItem(id) {
   return updateState(state => {
     state.expenses = state.expenses.filter(e => e.id !== id);
     return state;
   });
 }
 
-function addIncomeItem(amount) {
+export function addIncomeItem(amount) {
   return updateState(state => {
     state.incomes.unshift({
       id: uid(),
@@ -203,7 +217,7 @@ function addIncomeItem(amount) {
   });
 }
 
-function saveDailyJournal(journal) {
+export function saveDailyJournal(journal) {
   return updateState(state => {
     state.dailyJournal[todayKey()] = {
       mood: journal.mood,
@@ -215,7 +229,7 @@ function saveDailyJournal(journal) {
   });
 }
 
-function calcStats(state = getState()) {
+export function calcStats(state = getState()) {
   const incomeTotal = state.incomes.reduce((s, x) => s + Number(x.amount || 0), 0);
   const expenseTotal = state.expenses.reduce((s, x) => s + Number(x.amount || 0), 0);
   const net = Math.max(0, incomeTotal - expenseTotal);
@@ -234,12 +248,13 @@ function calcStats(state = getState()) {
   return { incomeTotal, expenseTotal, net, totalTasks, doneTasks, rate };
 }
 
-function computeStreak(state = getState()) {
+export function computeStreak(state = getState()) {
   const keys = Object.keys(state.dailyJournal).sort((a, b) => {
     const pa = a.split("/").reverse().join("-");
     const pb = b.split("/").reverse().join("-");
     return pa.localeCompare(pb);
   });
+
   let streak = 0;
   for (let i = keys.length - 1; i >= 0; i--) {
     const j = state.dailyJournal[keys[i]];
@@ -249,7 +264,7 @@ function computeStreak(state = getState()) {
   return streak;
 }
 
-function getCatProfile(state = getState()) {
+export function getCatProfile(state = getState()) {
   const stats = calcStats(state);
   const streak = computeStreak(state);
   const hour = new Date().getHours();
@@ -265,7 +280,7 @@ function getCatProfile(state = getState()) {
   return { ...found, level, rank, streak };
 }
 
-function buildBadges(state = getState()) {
+export function buildBadges(state = getState()) {
   const stats = calcStats(state);
   const streak = computeStreak(state);
   return [
@@ -277,15 +292,17 @@ function buildBadges(state = getState()) {
   ];
 }
 
-async function sendTelegramMessage(text, type) {
+export async function sendTelegramMessage(text, type) {
   const state = getState();
   const tg = state.settings.telegram;
+
   const enabledMap = {
     task: tg.enabledTask,
     income: tg.enabledIncome,
     expense: tg.enabledExpense,
     schedule: tg.enabledSchedule
   };
+
   if (!enabledMap[type]) return;
   if (!tg.botToken || !tg.chatId) return;
 
@@ -295,7 +312,7 @@ async function sendTelegramMessage(text, type) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: tg.chatId,
-        text
+        text: `✨ DASHBOARD\n${text}`
       })
     });
   } catch (e) {
@@ -303,7 +320,7 @@ async function sendTelegramMessage(text, type) {
   }
 }
 
-function exportJsonFile(filename, data) {
+export function exportJsonFile(filename, data) {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -313,7 +330,7 @@ function exportJsonFile(filename, data) {
   URL.revokeObjectURL(url);
 }
 
-function exportCsvFile(filename, rows) {
+export function exportCsvFile(filename, rows) {
   const csv = rows.map(row => row.map(v => `"${String(v ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
