@@ -24,59 +24,63 @@ let db = null;
 try {
   const app = initializeApp(FIREBASE_CONFIG);
   db = getFirestore(app);
-  console.log("Firebase init OK");
+  console.log("[Firebase] init OK");
+  console.log("[Firebase] projectId =", FIREBASE_CONFIG.projectId);
 } catch (e) {
-  console.error("Firebase init error:", e);
+  console.error("[Firebase] init error:", e);
 }
 
 export async function cloudSave(state) {
   if (!db) {
-    console.error("Firestore chưa khởi tạo");
+    console.error("[Firebase] cloudSave failed: db is null");
     return false;
   }
 
   try {
+    console.log("[Firebase] saving to users/" + USER_ID, state);
     await setDoc(doc(db, "users", USER_ID), {
       ...state,
       updatedAt: Date.now()
     });
-    console.log("Cloud save success");
+    console.log("[Firebase] cloudSave success");
     return true;
   } catch (e) {
-    console.error("Cloud save error:", e);
+    console.error("[Firebase] cloudSave error:", e);
     return false;
   }
 }
 
 export async function cloudLoad() {
   if (!db) {
-    console.error("Firestore chưa khởi tạo");
+    console.error("[Firebase] cloudLoad failed: db is null");
     return null;
   }
 
   try {
+    console.log("[Firebase] loading users/" + USER_ID);
     const snap = await getDoc(doc(db, "users", USER_ID));
-    console.log("Cloud load success, exists =", snap.exists());
+    console.log("[Firebase] cloudLoad exists =", snap.exists());
     if (snap.exists()) return snap.data();
     return null;
   } catch (e) {
-    console.error("Cloud load error:", e);
+    console.error("[Firebase] cloudLoad error:", e);
     return null;
   }
 }
 
 export async function cloudUpdate(partial) {
   if (!db) {
-    console.error("Firestore chưa khởi tạo");
+    console.error("[Firebase] cloudUpdate failed: db is null");
     return false;
   }
 
   try {
+    console.log("[Firebase] updating users/" + USER_ID, partial);
     await updateDoc(doc(db, "users", USER_ID), partial);
-    console.log("Cloud update success");
+    console.log("[Firebase] cloudUpdate success");
     return true;
-    } catch (e) {
-    console.error("Cloud update error:", e);
+  } catch (e) {
+    console.error("[Firebase] cloudUpdate error:", e);
     return false;
   }
 }
