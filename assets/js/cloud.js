@@ -1,15 +1,16 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  getDatabase,
+  ref,
+  set,
+  get,
+  update
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyA4oTXtOJtgc2Y9MciEANcMoX9NgElFKwU",
   authDomain: "test-818ef.firebaseapp.com",
+  databaseURL: "https://test-818ef-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "test-818ef",
   storageBucket: "test-818ef.firebasestorage.app",
   messagingSenderId: "825477829543",
@@ -17,70 +18,75 @@ const FIREBASE_CONFIG = {
   measurementId: "G-7D6S8T7Y24"
 };
 
-const USER_ID = "user_default";
+const SHARED_PATH = "shared_main";
 
 let db = null;
 
 try {
   const app = initializeApp(FIREBASE_CONFIG);
-  db = getFirestore(app);
-  console.log("[Firebase] init OK");
-  console.log("[Firebase] projectId =", FIREBASE_CONFIG.projectId);
+  db = getDatabase(app);
+  console.log("[RTDB] init OK");
+  console.log("[RTDB] shared path =", SHARED_PATH);
 } catch (e) {
-  console.error("[Firebase] init error:", e);
+  console.error("[RTDB] init error:", e);
+}
+
+export function getCurrentUserId() {
+  return SHARED_PATH;
 }
 
 export async function cloudSave(state) {
   if (!db) {
-    console.error("[Firebase] cloudSave failed: db is null");
+    console.error("[RTDB] cloudSave failed: db is null");
     return false;
   }
 
   try {
-    console.log("[Firebase] saving to users/" + USER_ID, state);
-    await setDoc(doc(db, "users", USER_ID), {
+    await set(ref(db, SHARED_PATH), {
       ...state,
+      userId: SHARED_PATH,
       updatedAt: Date.now()
     });
-    console.log("[Firebase] cloudSave success");
+    console.log("[RTDB] cloudSave success");
     return true;
   } catch (e) {
-    console.error("[Firebase] cloudSave error:", e);
+    console.error("[RTDB] cloudSave error:", e);
     return false;
   }
 }
 
 export async function cloudLoad() {
   if (!db) {
-    console.error("[Firebase] cloudLoad failed: db is null");
+    console.error("[RTDB] cloudLoad failed: db is null");
     return null;
   }
 
   try {
-    console.log("[Firebase] loading users/" + USER_ID);
-    const snap = await getDoc(doc(db, "users", USER_ID));
-    console.log("[Firebase] cloudLoad exists =", snap.exists());
-    if (snap.exists()) return snap.data();
+    const snapshot = await get(ref(db, SHARED_PATH));
+    console.log("[RTDB] cloudLoad exists =", snapshot.exists());
+    if (snapshot.exists()) return snapshot.val();
     return null;
   } catch (e) {
-    console.error("[Firebase] cloudLoad error:", e);
+    console.error("[RTDB] cloudLoad error:", e);
     return null;
   }
 }
 
 export async function cloudUpdate(partial) {
   if (!db) {
-    console.error("[Firebase] cloudUpdate failed: db is null");
+    console.error("[RTDB] cloudUpdate failed: db is null");
     return false;
   }
 
   try {
-    console.log("[Firebase] updating users/" + USER_ID, partial);
-    await updateDoc(doc(db, "users", USER_ID), partial);
-    console.log("[Firebase] cloudUpdate success");
+    await update(ref(db, SHARED_PATH), {
+      ...partial,
+      updatedAt: Date.now()
+    });
+    console.log("[RTDB] cloudUpdate success");
     return true;
   } catch (e) {
-    console.error("[Firebase] cloudUpdate error:", e);
+    console.error("[RTDB] cloudUpdate error:", e);
     return false;
   }
 }
